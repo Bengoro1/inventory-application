@@ -180,15 +180,29 @@ INSERT INTO power_supplies (manufacturer, model, type, efficiency_rating, wattag
   ('MSI', 'MAG A650GL', 'ATX', '80+ Gold', 650, 140, 'Full');
 `;
 
+const INSERT_SQL = `
+ALTER TABLE pc_components
+ADD url TEXT;
+
+UPDATE pc_components SET url = (CASE
+  WHEN name = 'Processors' THEN 'processors'
+  WHEN name = 'Motherboards' THEN 'motherboards'
+  WHEN name = 'Coolers' THEN 'coolers'
+  WHEN name = 'RAM memory' THEN 'RAMs'
+  WHEN name = 'Storages' THEN 'storages'
+  WHEN name = 'Graphic cards' THEN 'graphic_cards'
+  WHEN name = 'Cases' THEN 'cases'
+  WHEN name = 'Power supplies' THEN 'power_supplies'
+END);
+`;
+
 async function main() {
   console.log('Starting');
   const client = new Client({ connectionString: process.env.DB_URL });
   await client.connect();
-  await client.query(SQL);
+  await client.query(INSERT_SQL);
   await client.end();
   console.log('Ending');
 }
 
 main();
-
-// Hello I claimed my Twitch drops rewards but can't see them in-game. Can you take a look at it please? Thank you, have a nice day.

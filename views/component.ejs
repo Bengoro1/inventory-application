@@ -7,9 +7,7 @@
 </head>
 <body>
   <%- include('partials/header', {title: title}) %>
-  <% categories.forEach(category => { %>
-    <a href="pc_component/<%= category.url %>"><%= category.name %></a>
-  <% }) %>
+  <h1><%= title %></h1>
   <%- include('partials/footer') %>
 </body>
 </html>

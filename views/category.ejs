@@ -7,9 +7,14 @@
 </head>
 <body>
   <%- include('partials/header', {title: title}) %>
-  <% categories.forEach(category => { %>
-    <a href="pc_component/<%= category.url %>"><%= category.name %></a>
+  <% component.forEach(item => { %>
+    <%- include('partials/category_item', {item: item}) %>
   <% }) %>
+  <a href="/">Back</a>
   <%- include('partials/footer') %>
 </body>
 </html>
+
+<!-- get column names
+INT From: To:
+TEXT Checker boxes -->
