@@ -7,9 +7,10 @@
 </head>
 <body>
   <%- include('partials/header', {title: title}) %>
+  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url}) %>
   <% component.forEach(item => { %>
-    <%- include('partials/category_item', {item: item}) %>
-  <% }) %>
+    <%- include('partials/category_item', {item: item, category: title}) %>
+  <% }); %>
   <a href="/">Back</a>
   <%- include('partials/footer') %>
 </body>

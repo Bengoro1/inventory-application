@@ -1,3 +1,7 @@
-<% for (const obj in item) { %>
-  <p><%= obj.replace(/_/g, ' ') %>: <%= item[obj] %></p>
-<% } %>
+<a href="/pc_component/<%= category %>/<%= item.id %>">
+  <div>
+    <% for (const obj in item) { %>
+      <p><%= obj.charAt(0).toUpperCase() + obj.slice(1).replace(/_/g, ' ') %>: <%= item[obj] %></p>
+    <% } %>
+  </div>
+</a>

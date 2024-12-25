@@ -1,0 +1,39 @@
+<form method="get" action="/pc_component/<%= component_url %>">
+  <% filterBar.forEach(attributes => { %>
+    <% const parameterName = Object.keys(attributes)[0]; %>
+    <% const parameters = attributes[parameterName] || []; %>
+    <% const filteredParameters = parameters.filter(parameter => parameter != null); %>
+    <% if (filteredParameters.length > 0) { %>
+      <% const parameterType = Array.isArray(filteredParameters[0])
+        ? 'array'
+        : typeof filteredParameters[0]; %>
+      <% if (parameterType == 'number') { %>
+        <div>
+          <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <label for="from_<%= parameterName %>">From: </label>
+          <input type="number" name="<%= parameterName %>[from]" id="from_<%= parameterName %>" min="<%= Math.min(...filteredParameters) %>" value="<%= Math.min(...filteredParameters) %>">
+          <label for="to_<%= parameterName %>">To: </label>
+          <input type="number" name="<%= parameterName %>[to]" id="to_<%= parameterName %>" max="<%= Math.max(...filteredParameters) %>" value="<%= Math.max(...filteredParameters) %>">
+        </div>
+      <% } else if (parameterType == 'string') { %>
+        <div>
+          <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <% parameters.forEach(parameter => { %>
+            <input type="checkbox" name="<%= parameterName %>[]" value="<%= parameter %>" id="<%= parameterName %>_<%= parameter %>">
+            <label for="<%= parameterName %>_<%= parameter %>"><%= parameter %></label>
+          <% }); %>
+        </div>
+      <% } else if (parameterType == 'array') { %>
+        <div>
+          <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <% const uniqueItems = [...new Set(parameters.flat())]; %>
+          <% uniqueItems.forEach(item => { %>
+            <input type="checkbox" name="<%= parameterName %>[]" value="<%= item %>" id="<%= parameterName %>_<%= item %>">
+            <label for="<%= parameterName %>_<%= item %>"><%= item %></label>
+          <% }); %>
+        </div>
+      <% } %>
+    <% } %>
+  <% }); %>
+  <button type="submit">Filter</button>
+</form>
