@@ -36,7 +36,7 @@ async function getFilterBarRows(component, column) {
 }
 
 async function getFilteredItems(component, query) {
-  console.log(component, query);
+  console.log('filtered items', component, query);
 }
 
 module.exports = {

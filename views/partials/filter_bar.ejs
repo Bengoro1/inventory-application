@@ -1,4 +1,4 @@
-<form method="get" action="/pc_component/<%= component_url %>">
+<form id="filterBar" method="get" action="/pc_component/<%= component_url %>">
   <% filterBar.forEach(attributes => { %>
     <% const parameterName = Object.keys(attributes)[0]; %>
     <% const parameters = attributes[parameterName] || []; %>
@@ -37,3 +37,4 @@
   <% }); %>
   <button type="submit">Filter</button>
 </form>
+<!-- checkbox checked if data.includes(uniqueItems) -->

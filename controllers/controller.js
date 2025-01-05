@@ -17,7 +17,7 @@ async function componentGet(req, res) {
       .filter(column => column.column_name != 'id')
       .map(column => db.getFilterBarRows(req.params.pc_component, column.column_name))
   );
-  console.log(req.params.pc_component);
+
   res.render('category', {
     title: title.name,
     component: component,
@@ -30,7 +30,8 @@ async function productGet(req, res) {
   const product = await db.getProduct(req.params.pc_component, req.params.product);
   res.render('product', {
     title: product.name,
-    product: product
+    product: product,
+    component_url: req.params.pc_component
   });
 }
 

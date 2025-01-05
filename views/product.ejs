@@ -10,7 +10,7 @@
   <% for (const obj in product) { %>
     <p><%= obj.charAt(0).toUpperCase() + obj.slice(1).replace(/_/g, ' ') %>: <%= product[obj] %></p>
   <% } %>
-  <a href="/">Back</a>
+  <a href="/pc_component/<%= component_url %>">Back</a>
   <%- include('partials/footer') %>
 </body>
 </html>
