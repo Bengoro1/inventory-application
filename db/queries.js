@@ -36,7 +36,41 @@ async function getFilterBarRows(component, column) {
 }
 
 async function getFilteredItems(component, query) {
-  console.log('filtered items', component, query);
+  let queryString = `SELECT * FROM ${component} WHERE `;
+  const conditions = [];
+  const values = [];
+
+  for (const [key, value] of Object.entries(query)) {
+    if (value.includes('-')) {
+      const [min, max] = value.split('-').map(Number);
+      conditions.push(`${key} BETWEEN $${values.length + 1} AND $${values.length + 2}`);
+      values.push(min, max);
+    } else if (value.includes(',')) {
+      const items = value.split(',').map((v) => v.trim());
+      if ((key === 'socket' && component === 'coolers') || (key === 'motherboard_form_factor' && component === 'cases')) {
+        conditions.push(`${key} && $${values.length + 1}`);
+        values.push(items);
+      } else {
+        const placeholders = items.map((_, index) => `$${values.length + index + 1}`).join(', ');
+        conditions.push(`${key} IN (${placeholders})`);
+        values.push(...items);
+      }
+    } else {
+      if ((key === 'socket' && component === 'coolers') || (key === 'motherboard_form_factor' && component === 'cases')) {
+        conditions.push(`${key} @> ARRAY[$${values.length + 1}]::TEXT[]`);
+        values.push(value);
+      } else {
+        conditions.push(`${key} = $${values.length + 1}`);
+        values.push(value);
+      }
+    }
+  }
+
+  queryString += conditions.join(' AND ');
+
+  console.log('rows', queryString, values);
+  const { rows } = await pool.query(queryString, values);
+  return rows;
 }
 
 module.exports = {
@@ -48,3 +82,7 @@ module.exports = {
   getFilterBarRows,
   getFilteredItems
 }
+
+// coolers socket, cases form_factor => filter crashes app
+// power_supplies efficiency 80+ gold not showing '+'
+// replace IN

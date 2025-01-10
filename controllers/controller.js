@@ -9,7 +9,9 @@ async function allCategoriesGet(req, res) {
 }
 
 async function componentGet(req, res) {
-  const component = /*Object.keys(req.query).length > 0 ? await db.getFilteredItems(req.params.pc_component, req.query) :*/ await db.getComponent(req.params.pc_component);
+  const isRedirectNeeded = req._parsedUrl.query != null && req._parsedUrl.query.includes('%5B');
+  const component = Object.keys(req.query).length == 0 ? await db.getComponent(req.params.pc_component) :
+    !isRedirectNeeded ? await db.getFilteredItems(req.params.pc_component, req.query) : null;
   const title = await db.getCategoryName(req.params.pc_component);
   const filterBarColumns = await db.getFilterBarColumns(req.params.pc_component);
   const filterBar = await Promise.all(
@@ -17,8 +19,6 @@ async function componentGet(req, res) {
       .filter(column => column.column_name != 'id')
       .map(column => db.getFilterBarRows(req.params.pc_component, column.column_name))
   );
-
-  const isRedirectNeeded = req._parsedUrl.query != null && req._parsedUrl.query.includes('%5B');
 
   if (isRedirectNeeded) {
     const transformedQuery = {};
@@ -35,7 +35,7 @@ async function componentGet(req, res) {
       .join('&')
       .replace(/ /g, '+');
 
-    return res.redirect(`/pc_component/processors?${queryString}`);
+    return res.redirect(`/pc_component/${req.params.pc_component}?${queryString}`);
   }
 
   res.render('category', {
