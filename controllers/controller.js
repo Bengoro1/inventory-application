@@ -9,6 +9,7 @@ async function allCategoriesGet(req, res) {
 }
 
 async function componentGet(req, res) {
+  console.log('1st query', req.query);
   const isRedirectNeeded = req._parsedUrl.query != null && req._parsedUrl.query.includes('%5B');
   const component = Object.keys(req.query).length == 0 ? await db.getComponent(req.params.pc_component) :
     !isRedirectNeeded ? await db.getFilteredItems(req.params.pc_component, req.query) : null;
@@ -31,9 +32,8 @@ async function componentGet(req, res) {
     }
 
     const queryString = Object.entries(transformedQuery)
-      .map(([key, value]) => `${key}=${value}`)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value).replace(/%20/g, '+')}`)
       .join('&')
-      .replace(/ /g, '+');
 
     return res.redirect(`/pc_component/${req.params.pc_component}?${queryString}`);
   }

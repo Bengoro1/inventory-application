@@ -68,7 +68,6 @@ async function getFilteredItems(component, query) {
 
   queryString += conditions.join(' AND ');
 
-  console.log('rows', queryString, values);
   const { rows } = await pool.query(queryString, values);
   return rows;
 }
@@ -82,7 +81,3 @@ module.exports = {
   getFilterBarRows,
   getFilteredItems
 }
-
-// coolers socket, cases form_factor => filter crashes app
-// power_supplies efficiency 80+ gold not showing '+'
-// replace IN
