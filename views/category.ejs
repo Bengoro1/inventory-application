@@ -7,7 +7,7 @@
 </head>
 <body>
   <%- include('partials/header', {title: title}) %>
-  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url}) %>
+  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query}) %>
   <% component.forEach(item => { %>
     <%- include('partials/category_item', {item: item, component_url: component_url}) %>
   <% }); %>

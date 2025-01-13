@@ -7,19 +7,23 @@
       <% const parameterType = Array.isArray(filteredParameters[0])
         ? 'array'
         : typeof filteredParameters[0]; %>
+      <% const queryValue = query[parameterName]; %>
       <% if (parameterType == 'number') { %>
         <div>
           <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <% const [fromValue, toValue] = (queryValue || '').split('-').map(Number); %>
           <label for="from_<%= parameterName %>">From: </label>
-          <input type="number" name="<%= parameterName %>[from]" id="from_<%= parameterName %>" min="<%= Math.min(...filteredParameters) %>" value="<%= Math.min(...filteredParameters) %>">
+          <input type="number" name="<%= parameterName %>[from]" id="from_<%= parameterName %>" min="<%= Math.min(...filteredParameters) %>" value="<%= fromValue || Math.min(...filteredParameters) %>">
           <label for="to_<%= parameterName %>">To: </label>
-          <input type="number" name="<%= parameterName %>[to]" id="to_<%= parameterName %>" max="<%= Math.max(...filteredParameters) %>" value="<%= Math.max(...filteredParameters) %>">
+          <input type="number" name="<%= parameterName %>[to]" id="to_<%= parameterName %>" max="<%= Math.max(...filteredParameters) %>" value="<%= toValue || Math.max(...filteredParameters) %>">
         </div>
       <% } else if (parameterType == 'string') { %>
         <div>
           <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <% selectedValues = (queryValue || '').split(','); %>
           <% parameters.forEach(parameter => { %>
-            <input type="checkbox" name="<%= parameterName %>[]" value="<%= parameter %>" id="<%= parameterName %>_<%= parameter %>">
+            <input type="checkbox" name="<%= parameterName %>[]" value="<%= parameter %>" id="<%= parameterName %>_<%= parameter %>"
+            <%= selectedValues.includes(parameter) ? 'checked' : '' %>>
             <label for="<%= parameterName %>_<%= parameter %>"><%= parameter %></label>
           <% }); %>
         </div>
@@ -27,8 +31,10 @@
         <div>
           <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
           <% const uniqueItems = [...new Set(parameters.flat())]; %>
+          <% const selectedValues = (queryValue || '').split(','); %>
           <% uniqueItems.forEach(item => { %>
-            <input type="checkbox" name="<%= parameterName %>[]" value="<%= item %>" id="<%= parameterName %>_<%= item %>">
+            <input type="checkbox" name="<%= parameterName %>[]" value="<%= item %>" id="<%= parameterName %>_<%= item %>"
+            <%= selectedValues.includes(item) ? 'checked' : '' %>>
             <label for="<%= parameterName %>_<%= item %>"><%= item %></label>
           <% }); %>
         </div>
@@ -37,5 +43,3 @@
   <% }); %>
   <button type="submit">Filter</button>
 </form>
-<!-- checkbox checked if data.includes(uniqueItems) -->
-<!-- ram no filter bar -->
