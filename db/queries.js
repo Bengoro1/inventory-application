@@ -20,8 +20,8 @@ async function getProduct(category, product) {
   return rows[0];
 }
 
-async function getFilterBarColumns(component) {
-  const { rows } = await pool.query(`SELECT column_name
+async function getColumns(component) {
+  const { rows } = await pool.query(`SELECT column_name, data_type
     FROM INFORMATION_SCHEMA.COLUMNS
     WHERE TABLE_NAME = N'${component}';
   `);
@@ -72,12 +72,25 @@ async function getFilteredItems(component, query) {
   return rows;
 }
 
+async function newProductPost(component, data) {
+  let queryString = `INSERT INTO ${component} `;
+  const values = [];
+
+  await pool.query(queryString, values);
+}
+
+async function deleteProduct(component, product) {
+  await pool.query(`DELETE FROM ${component} WHERE id = $1;`, [product]);
+}
+
 module.exports = {
   getAllCategories,
   getComponent,
   getCategoryName,
   getProduct,
-  getFilterBarColumns,
+  getColumns,
   getFilterBarRows,
-  getFilteredItems
+  getFilteredItems,
+  newProductPost,
+  deleteProduct
 }
