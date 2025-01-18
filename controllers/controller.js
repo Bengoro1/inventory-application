@@ -84,17 +84,19 @@ async function productPostNew(req, res) {
 }
 
 async function productDelete(req, res) {
-  console.log('hi');
   await db.deleteProduct(req.params.pc_component, req.params.product);
   res.redirect(`/pc_component/${req.params.pc_component}`);
 }
 
 async function productUpdateGet(req, res) {
   const product = await db.getProduct(req.params.pc_component, req.params.product);
+  const columns = await db.getColumns(req.params.pc_component);
+  const filteredColumns = columns.filter(column => column.column_name != 'id');
   res.render('update', {
-    title: `Update ${req.params.pc_component}`,
-    component: req.params.pc_component,
-    product: product
+    title: `Update ${product.name}`,
+    component_url: req.params.pc_component,
+    product: product,
+    columns: filteredColumns
   });
 }
 

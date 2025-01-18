@@ -89,7 +89,6 @@ async function newProductPost(component, data) {
 }
 
 async function deleteProduct(component, product) {
-  console.log('hello');
   await pool.query(`DELETE FROM ${component} WHERE id = $1;`, [product]);
 }
 
