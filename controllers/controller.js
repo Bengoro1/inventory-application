@@ -101,7 +101,8 @@ async function productUpdateGet(req, res) {
 }
 
 async function productUpdatePost(req, res) {
-  await db.updateProductPost(req.body);
+  await db.updateProductPost(req.params.pc_component, req.params.product, req.body);
+  res.redirect(`/pc_component/${req.params.pc_component}/${req.params.product}`);
 }
 
 module.exports = {

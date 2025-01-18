@@ -7,7 +7,7 @@
 </head>
 <body>
   <%- include('partials/header', {title: title}) %>
-  <form action="/pc_component/<%= component_url %>/new" method="post">
+  <form action="/pc_component/<%= component_url %>/<%= product.id %>/update" method="post">
     <% columns.forEach(column => { %>
       <label for="<%= column.column_name %>"><%= column.column_name.charAt(0).toUpperCase() + column.column_name.slice(1).replace(/_/g, ' ') %></label>
       <input 

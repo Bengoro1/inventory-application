@@ -10,5 +10,6 @@ router.post('/pc_component/:pc_component/new', controller.productPostNew);
 router.get('/pc_component/:pc_component/:product', controller.productGet);
 router.post('/pc_component/:pc_component/:product/delete', controller.productDelete);
 router.get('/pc_component/:pc_component/:product/update', controller.productUpdateGet);
+router.post('/pc_component/:pc_component/:product/update', controller.productUpdatePost);
 
 module.exports = router;

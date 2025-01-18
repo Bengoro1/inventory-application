@@ -76,13 +76,11 @@ async function newProductPost(component, data) {
   const values = [];
   const columnNames = [];
   const placeholders = [];
-  let i = 1;
 
   for (const key in data) {
     values.push(data[key] || null);
     columnNames.push(key);
-    placeholders.push(`$${i}`);
-    i++;
+    placeholders.push(`$${values.length}`);
   } 
 
   await pool.query(`INSERT INTO ${component} (${columnNames.join(', ')}) VALUES (${placeholders.join(', ')});`, values);
@@ -90,6 +88,18 @@ async function newProductPost(component, data) {
 
 async function deleteProduct(component, product) {
   await pool.query(`DELETE FROM ${component} WHERE id = $1;`, [product]);
+}
+
+async function updateProductPost(component, product_id, data) {
+  const values = [];
+  values.push(product_id);
+  const conditions = [];
+
+  for (const key in data) {
+    values.push(data[key]);
+    conditions.push(`${key} = $${values.length}`);
+  }
+  await pool.query(`UPDATE ${component} SET ${conditions.join(', ')} WHERE id = $1;`, values);
 }
 
 module.exports = {
@@ -101,5 +111,6 @@ module.exports = {
   getFilterBarRows,
   getFilteredItems,
   newProductPost,
-  deleteProduct
+  deleteProduct,
+  updateProductPost
 }
