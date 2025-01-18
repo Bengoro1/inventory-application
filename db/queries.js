@@ -73,10 +73,19 @@ async function getFilteredItems(component, query) {
 }
 
 async function newProductPost(component, data) {
-  let queryString = `INSERT INTO ${component} `;
   const values = [];
+  const columnNames = [];
+  const placeholders = [];
+  let i = 1;
 
-  await pool.query(queryString, values);
+  for (const key in data) {
+    values.push(data[key] || null);
+    columnNames.push(key);
+    placeholders.push(`$${i}`);
+    i++;
+  } 
+
+  await pool.query(`INSERT INTO ${component} (${columnNames.join(', ')}) VALUES (${placeholders.join(', ')});`, values);
 }
 
 async function deleteProduct(component, product) {
