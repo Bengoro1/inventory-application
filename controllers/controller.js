@@ -84,6 +84,7 @@ async function productPostNew(req, res) {
 }
 
 async function productDelete(req, res) {
+  console.log('hi');
   await db.deleteProduct(req.params.pc_component, req.params.product);
   res.redirect(`/pc_component/${req.params.pc_component}`);
 }
