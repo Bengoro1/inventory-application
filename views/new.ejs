@@ -9,7 +9,7 @@
   <%- include('partials/header', {title: title}) %>
   <form action="/pc_component/<%= component_url %>/new" method="post">
     <% columns.forEach(column => { %>
-      <label for="<%= column.column_name %>"><%= column.column_name.charAt(0).toUpperCase() + column.column_name.slice(1).replace(/_/g, ' ') %></label>
+      <label for="<%= column.column_name %>"><%= transformString(column.column_name) %></label>
       <input type="<%= column.data_type == 'text' ? 'text' : 'number' %>" name="<%= column.column_name %>" id="<%= column.column_name %>">
     <% }); %>
     <button type="submit">Submit</button>

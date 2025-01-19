@@ -8,9 +8,9 @@
 <body>
   <%- include('partials/header', {title: title}) %>
   <a href="/pc_component/<%= component_url %>/new">New</a>
-  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query}) %>
+  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query, transformString: transformString}) %>
   <% component.forEach(item => { %>
-    <%- include('partials/category_item', {item: item, component_url: component_url}) %>
+    <%- include('partials/category_item', {item: item, component_url: component_url, transformString: transformString}) %>
   <% }); %>
   <a href="/">Back</a>
   <%- include('partials/footer') %>

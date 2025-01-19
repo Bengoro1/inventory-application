@@ -1,7 +1,7 @@
 <a href="/pc_component/<%= component_url %>/<%= item.id %>">
   <div>
     <% for (const obj in item) { %>
-      <p><%= obj.charAt(0).toUpperCase() + obj.slice(1).replace(/_/g, ' ') %>: <%= item[obj] %></p>
+      <p><%= transformString(obj) %>: <%= item[obj] %></p>
     <% } %>
   </div>
 </a>

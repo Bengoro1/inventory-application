@@ -42,7 +42,8 @@ async function componentGet(req, res) {
     component: component,
     filterBar: filterBar,
     component_url: req.params.pc_component,
-    query: req.query
+    query: req.query,
+    transformString: transformString
   });
 }
 
@@ -51,7 +52,8 @@ async function productGet(req, res) {
   res.render('product', {
     title: product.name,
     product: product,
-    component_url: req.params.pc_component
+    component_url: req.params.pc_component,
+    transformString: transformString
   });
 }
 
@@ -61,12 +63,15 @@ function transformString(string) {
     .map(word => {
       if (word === 'mhz') return 'MHz';
       if (word === 'w') return 'W';
+      if (word === 'rpm') return 'RPM';
+      if (word === 'db') return 'dB';
+      if (word === 'gb') return 'GB';
+      if (word === 'ghz') return 'GHz';
+      if (word === 'tb') return 'TB';
       return word;
     })
     .join(' ');
 }
-
-console.log(transformString('boost_clock_mhz'));
 
 async function productGetNew(req, res) {
   const columns = await db.getColumns(req.params.pc_component);
@@ -74,7 +79,8 @@ async function productGetNew(req, res) {
   res.render('new', {
     title: `New ${req.params.pc_component}`,
     component_url: req.params.pc_component,
-    columns: filteredColumns
+    columns: filteredColumns,
+    transformString: transformString
   });
 }
 
@@ -96,7 +102,8 @@ async function productUpdateGet(req, res) {
     title: `Update ${product.name}`,
     component_url: req.params.pc_component,
     product: product,
-    columns: filteredColumns
+    columns: filteredColumns,
+    transformString: transformString
   });
 }
 
@@ -117,9 +124,6 @@ module.exports = {
   productUpdatePost
 }
 
-// implement transformString
-// more terms for transform string
-// create, delete and edit a product
+// order by
+// fix columns order (maybe because of filter)
 // CSS
-
-// odin/node/forms

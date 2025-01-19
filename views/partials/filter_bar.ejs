@@ -10,7 +10,7 @@
       <% const queryValue = query[parameterName]; %>
       <% if (parameterType == 'number') { %>
         <div>
-          <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <%= transformString(parameterName) %>
           <% const [fromValue, toValue] = (queryValue || '').split('-').map(Number); %>
           <label for="from_<%= parameterName %>">From: </label>
           <input type="number" name="<%= parameterName %>[from]" id="from_<%= parameterName %>" min="<%= Math.min(...filteredParameters) %>" value="<%= fromValue || Math.min(...filteredParameters) %>">
@@ -19,7 +19,7 @@
         </div>
       <% } else if (parameterType == 'string') { %>
         <div>
-          <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <%= transformString(parameterName) %>
           <% selectedValues = (queryValue || '').split(','); %>
           <% parameters.forEach(parameter => { %>
             <input type="checkbox" name="<%= parameterName %>[]" value="<%= parameter %>" id="<%= parameterName %>_<%= parameter %>"
@@ -29,7 +29,7 @@
         </div>
       <% } else if (parameterType == 'array') { %>
         <div>
-          <%= parameterName.charAt(0).toUpperCase() + parameterName.slice(1).replace(/_/g, ' ') %>
+          <%= transformString(parameterName) %>
           <% const uniqueItems = [...new Set(parameters.flat())]; %>
           <% const selectedValues = (queryValue || '').split(','); %>
           <% uniqueItems.forEach(item => { %>

@@ -8,7 +8,7 @@
 <body>
   <%- include('partials/header', {title: title}) %>
   <% for (const obj in product) { %>
-    <p><%= obj.charAt(0).toUpperCase() + obj.slice(1).replace(/_/g, ' ') %>: <%= product[obj] %></p>
+    <p><%= transformString(obj) %>: <%= product[obj] %></p>
   <% } %>
   <form action="/pc_component/<%= component_url %>/<%= product.id %>/delete" method="post">
     <button type="submit">Delete</button>
