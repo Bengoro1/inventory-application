@@ -6,7 +6,7 @@ async function getAllCategories() {
 }
 
 async function getComponent(component) {
-  const { rows } = await pool.query(`SELECT * FROM ${component}`);
+  const { rows } = await pool.query(`SELECT * FROM ${component} ORDER BY id`);
   return rows;
 }
 
@@ -68,7 +68,7 @@ async function getFilteredItems(component, query) {
 
   queryString += conditions.join(' AND ');
 
-  const { rows } = await pool.query(queryString, values);
+  const { rows } = await pool.query(queryString + ' ORDER BY id;', values);
   return rows;
 }
 
