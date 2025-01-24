@@ -8,7 +8,14 @@
 <body>
   <%- include('partials/header', {title: title}) %>
   <a href="/pc_component/<%= component_url %>/new">New</a>
-  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query, transformString: transformString}) %>
+  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query, transformString: transformString, order: order}) %>
+  <div>
+    Order by:
+    <a href="<%= urls.default %>">Default</a>
+    <a href="<%= urls.name %>">Name</a>
+    <a href="<%= urls.low %>">Price: Low to High</a>
+    <a href="<%= urls.high %>">Price: High to Low</a>
+  </div>
   <% component.forEach(item => { %>
     <%- include('partials/category_item', {item: item, component_url: component_url, transformString: transformString}) %>
   <% }); %>

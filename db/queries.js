@@ -35,10 +35,21 @@ async function getFilterBarRows(component, column) {
   return row;
 }
 
+async function getNameOrModel(component) {
+  const query = `
+    SELECT column_name
+    FROM information_schema.columns
+    WHERE table_name = $1 AND column_name IN ('name', 'model');
+  `;
+  const { rows } = await pool.query(query, [component]);
+  return rows[0].column_name;
+}
+
 async function getFilteredItems(component, query) {
-  let queryString = `SELECT * FROM ${component} WHERE `;
+  let queryString = `SELECT * FROM ${component} `;
   const conditions = [];
   const values = [];
+  let order;
 
   for (const [key, value] of Object.entries(query)) {
     if (value.includes('-')) {
@@ -59,6 +70,14 @@ async function getFilteredItems(component, query) {
       if ((key === 'socket' && component === 'coolers') || (key === 'motherboard_form_factor' && component === 'cases')) {
         conditions.push(`${key} @> ARRAY[$${values.length + 1}]::TEXT[]`);
         values.push(value);
+      } else if (key === 'order') {
+        if (value === 'name') {
+          order = await getNameOrModel(component);
+        } else if (value === 'low') {
+          order = 'price'
+        } else if (value === 'high') {
+          order = 'price DESC'
+        }
       } else {
         conditions.push(`${key} = $${values.length + 1}`);
         values.push(value);
@@ -66,9 +85,11 @@ async function getFilteredItems(component, query) {
     }
   }
 
-  queryString += conditions.join(' AND ');
-
-  const { rows } = await pool.query(queryString + ' ORDER BY id;', values);
+  if (conditions.length > 0) {
+    queryString += 'WHERE ' + conditions.join(' AND ');
+  }
+  
+  const { rows } = await pool.query(queryString + ` ORDER BY ${order || 'id'};`, values);
   return rows;
 }
 

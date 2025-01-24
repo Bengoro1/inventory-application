@@ -20,6 +20,23 @@ async function componentGet(req, res) {
       .map(column => db.getFilterBarRows(req.params.pc_component, column.column_name))
   );
 
+  const baseUrl = `${req.protocol}://${req.get('host')}${req.path}`;
+  const params = new URLSearchParams(req.query);
+
+  const urlWithoutOrder = new URL(baseUrl);
+  params.forEach((value, key) => {
+    if (key !== 'order') {
+      urlWithoutOrder.searchParams.set(key, value);
+    }
+  });
+
+  const urls = {
+    default: urlWithoutOrder.toString(),
+    name: `${urlWithoutOrder.toString()}${urlWithoutOrder.search ? '&' : '?'}order=name`,
+    low: `${urlWithoutOrder.toString()}${urlWithoutOrder.search ? '&' : '?'}order=low`,
+    high: `${urlWithoutOrder.toString()}${urlWithoutOrder.search ? '&' : '?'}order=high`,
+  };
+
   if (isRedirectNeeded) {
     const transformedQuery = {};
     for (const [key, value] of Object.entries(req.query)) {
@@ -43,7 +60,9 @@ async function componentGet(req, res) {
     filterBar: filterBar,
     component_url: req.params.pc_component,
     query: req.query,
-    transformString: transformString
+    transformString: transformString,
+    urls: urls,
+    order: req.query.order
   });
 }
 
@@ -124,6 +143,6 @@ module.exports = {
   productUpdatePost
 }
 
-// order by
 // fix columns order (maybe because of filter)
 // CSS
+// adjust item parameters text price + $, capacity + TB
