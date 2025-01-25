@@ -21,10 +21,12 @@ async function getProduct(category, product) {
 }
 
 async function getColumns(component) {
-  const { rows } = await pool.query(`SELECT column_name, data_type
+  const query = `SELECT column_name, data_type, ordinal_position
     FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = N'${component}';
-  `);
+    WHERE TABLE_NAME = $1
+    ORDER BY ordinal_position;
+  `;
+  const { rows } = await pool.query(query, [component]);
   return rows;
 }
 

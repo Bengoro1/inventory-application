@@ -8,7 +8,9 @@
 <body>
   <%- include('partials/header', {title: title}) %>
   <% for (const obj in product) { %>
-    <p><%= transformString(obj) %>: <%= product[obj] %></p>
+    <% if (obj != 'id') { %>
+      <p><%= transformString(obj) %>: <%= product[obj] %></p>
+    <% } %>
   <% } %>
   <form action="/pc_component/<%= component_url %>/<%= product.id %>/delete" method="post">
     <button type="submit">Delete</button>

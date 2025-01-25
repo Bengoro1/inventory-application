@@ -1,7 +1,9 @@
 <a href="/pc_component/<%= component_url %>/<%= item.id %>">
   <div>
     <% for (const obj in item) { %>
-      <p><%= transformString(obj) %>: <%= item[obj] %></p>
+      <% if (obj != 'id') { %>
+        <p><%= transformString(obj) %>: <%= item[obj] %></p>
+      <% } %>
     <% } %>
   </div>
 </a>
