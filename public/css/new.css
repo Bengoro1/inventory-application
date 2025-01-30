@@ -1,0 +1,47 @@
+.container {
+  display: grid;
+  grid-template-rows: 50px 1fr 50px 50px;
+  height: 100%;
+  width: 100%;
+}
+
+.container > form {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 6px;
+}
+
+form > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.container > a {
+  color: white;
+  justify-self: end;
+  margin-right: 50px;
+}
+
+.container > a:hover{
+  color: rgb(138 138 255);
+}
+
+form > button {
+  background-color: rgb(138 138 255);
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 4px 20px;
+  cursor: pointer;
+}
+
+form > button:hover {
+  background-color: white;
+  border-color: rgb(138 138 255);
+  color: black;
+}

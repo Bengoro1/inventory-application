@@ -1,0 +1,139 @@
+.container {
+  display: grid;
+  grid-template-rows: 50px 1fr 50px;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 30px 30px 1fr;
+  padding: 50px;
+}
+
+.content > form {
+  grid-column: 1 / 2;
+  grid-row: 1 / -1;
+}
+
+.category-item-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 350px);
+  gap: 15px;
+  align-content: start;
+}
+
+.content > a, .order-links a {
+  color: white;
+}
+
+.content > a:hover, .order-links a:hover {
+  color: rgb(138 138 255);
+}
+
+.add {
+  width: max-content;
+}
+
+.category-item-container > a {
+  text-decoration: none;
+  color: white;
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 20px;
+  height: fit-content;
+}
+
+.category-item-container p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-item-container div {
+  display: flex;
+  flex-direction: column;
+}
+
+div:has(> input[type="number"]) {
+  display: flex;
+  justify-content: space-between;
+}
+
+input[type="number"] {
+  width: 80px;
+  margin-right: 130px;
+}
+
+.content > a:not(.add) {
+  grid-column: 2 / 3;
+  justify-self: end;
+}
+
+form > button {
+  background-color: rgb(138 138 255);
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 4px 20px;
+  width: 150px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+form > button:hover {
+  background-color: white;
+  border-color: rgb(138 138 255);
+  color: black;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: white;
+  transition: 0.3s;
+  margin: 0;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+input[type="checkbox"]::before {
+  content: "✔";
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+
+div:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+form > div {
+  margin-bottom: 15px;
+}
+
+.order-links > a {
+  text-decoration: none;
+}

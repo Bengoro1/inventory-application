@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-</head>
+  <%- include('partials/head', {title: title, stylesheet: 'new'}) %>
 <body>
-  <%- include('partials/header', {title: title}) %>
-  <form action="/pc_component/<%= component_url %>/new" method="post">
-    <% columns.forEach(column => { %>
-      <label for="<%= column.column_name %>"><%= transformString(column.column_name) %></label>
-      <input type="<%= column.data_type == 'text' ? 'text' : 'number' %>" name="<%= column.column_name %>" id="<%= column.column_name %>">
-    <% }); %>
-    <button type="submit">Submit</button>
-  </form>
-  <a href="/pc_component/<%= component_url %>">Back</a>
-  <%- include('partials/footer') %>
+  <div class="container">
+    <%- include('partials/header', {title: title}) %>
+    <form action="/pc_component/<%= component_url %>/new" method="post">
+      <% columns.forEach(column => { %>
+        <div>
+          <label for="<%= column.column_name %>"><%= transformString(column.column_name) %></label>
+          <input type="<%= column.data_type == 'text' ? 'text' : 'number' %>" name="<%= column.column_name %>" id="<%= column.column_name %>">
+        </div>
+        <% }); %>
+      <button type="submit">Submit</button>
+    </form>
+    <a href="/pc_component/<%= component_url %>">Back</a>
+    <%- include('partials/footer') %>
+  </div>
 </body>
 </html>

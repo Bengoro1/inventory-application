@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-</head>
+  <%- include('partials/head', {title: title, stylesheet: 'category'}) %>
 <body>
-  <%- include('partials/header', {title: title}) %>
-  <a href="/pc_component/<%= component_url %>/new">New</a>
-  <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query, transformString: transformString, order: order}) %>
-  <div>
-    Order by:
-    <a href="<%= urls.default %>">Default</a>
-    <a href="<%= urls.name %>">Name</a>
-    <a href="<%= urls.low %>">Price: Low to High</a>
-    <a href="<%= urls.high %>">Price: High to Low</a>
+  <div class="container">
+    <%- include('partials/header', {title: title}) %>
+    <div class="content">
+      <a class="add" href="/pc_component/<%= component_url %>/new">Add to <%= title.toLowerCase() %></a>
+      <%- include('partials/filter_bar', {filterBar: filterBar, component_url: component_url, query: query, transformString: transformString, order: order}) %>
+      <div class="order-links">
+        Order by:
+        <a href="<%= urls.default %>" <% if (!order) { %> style="text-decoration: underline;" <% } %> >Default</a>
+        <a href="<%= urls.name %>" <% if (order == 'name') { %> style="text-decoration: underline;" <% } %> >Name</a>
+        <a href="<%= urls.low %>" <% if (order == 'low') { %> style="text-decoration: underline;" <% } %> >Price: Low to High</a>
+        <a href="<%= urls.high %>" <% if (order == 'high') { %> style="text-decoration: underline;" <% } %> >Price: High to Low</a>
+      </div>
+      <div class="category-item-container">
+        <% component.forEach(item => { %>
+          <%- include('partials/category_item', {item: item, component_url: component_url, transformString: transformString}) %>
+        <% }); %>
+      </div>
+      <a href="/">Back</a>
+    </div>
+    <%- include('partials/footer') %>
   </div>
-  <% component.forEach(item => { %>
-    <%- include('partials/category_item', {item: item, component_url: component_url, transformString: transformString}) %>
-  <% }); %>
-  <a href="/">Back</a>
-  <%- include('partials/footer') %>
 </body>
 </html>

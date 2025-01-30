@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-</head>
+  <%- include('partials/head', {title: title, stylesheet: 'product'}) %>
 <body>
-  <%- include('partials/header', {title: title}) %>
-  <% for (const obj in product) { %>
-    <% if (obj != 'id') { %>
-      <p><%= transformString(obj) %>: <%= product[obj] %></p>
-    <% } %>
-  <% } %>
-  <form action="/pc_component/<%= component_url %>/<%= product.id %>/delete" method="post">
-    <button type="submit">Delete</button>
-  </form>
-  <a href="/pc_component/<%= component_url %>/<%= product.id %>/update">Update</a>
-  <a href="/pc_component/<%= component_url %>">Back</a>
-  <%- include('partials/footer') %>
+  <div class="container">
+    <%- include('partials/header', {title: title}) %>
+    <div class="content">
+      <% for (const obj in product) { %>
+        <% if (obj == 'socket' && component_url == 'coolers') { %>
+          <div>
+            <p><%= transformString(obj) %>: </p>
+            <p><%= product[obj].join(', ') %></p>
+          </div>
+        <% } else if (obj.includes('ghz') || obj.includes('mhz') || obj.includes('w') || obj.includes('rpm') || obj.includes('db') || obj.includes('gb') || obj.includes('tb')) { %>
+          <div>
+            <p><%= transformString(obj).split(' ').slice(0, -1).join(' ') %>: </p>
+            <p><%= product[obj] %> <%= transformString(obj).split(' ').slice(-1).join(' ') %></p>
+          </div>
+        <% } else if (obj == 'price') { %>
+          <div>
+            <p><%= transformString(obj) %>: </p>
+            <p><%= (product[obj] || 0).toFixed(2) %>$</p>
+          </div>
+        <% } else if (obj != 'id') { %>
+          <div>
+            <p><%= transformString(obj) %>: </p>
+            <p><%= product[obj] %></p>
+          </div>
+        <% } %>
+      <% } %>
+      <div>
+        <form action="/pc_component/<%= component_url %>/<%= product.id %>/delete" method="post">
+          <button type="submit">Delete</button>
+        </form>
+        <a href="/pc_component/<%= component_url %>/<%= product.id %>/update">Update</a>
+      </div>
+    </div>
+    <a href="/pc_component/<%= component_url %>">Back</a>
+    <%- include('partials/footer') %>
+  </div>
 </body>
 </html>

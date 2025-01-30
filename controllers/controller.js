@@ -68,8 +68,9 @@ async function componentGet(req, res) {
 
 async function productGet(req, res) {
   const product = await db.getProduct(req.params.pc_component, req.params.product);
+  const nameOrModel = await db.getNameOrModel(req.params.pc_component);
   res.render('product', {
-    title: product.name,
+    title: `${product.manufacturer} ${product[nameOrModel]}`,
     product: product,
     component_url: req.params.pc_component,
     transformString: transformString
@@ -96,7 +97,7 @@ async function productGetNew(req, res) {
   const columns = await db.getColumns(req.params.pc_component);
   const filteredColumns = columns.filter(column => column.column_name != 'id');
   res.render('new', {
-    title: `New ${req.params.pc_component}`,
+    title: `Add to ${req.params.pc_component}`,
     component_url: req.params.pc_component,
     columns: filteredColumns,
     transformString: transformString
@@ -117,8 +118,9 @@ async function productUpdateGet(req, res) {
   const product = await db.getProduct(req.params.pc_component, req.params.product);
   const columns = await db.getColumns(req.params.pc_component);
   const filteredColumns = columns.filter(column => column.column_name != 'id');
+  const nameOrModel = await db.getNameOrModel(req.params.pc_component);
   res.render('update', {
-    title: `Update ${product.name}`,
+    title: `Update ${product.manufacturer} ${product[nameOrModel]}`,
     component_url: req.params.pc_component,
     product: product,
     columns: filteredColumns,
@@ -142,7 +144,3 @@ module.exports = {
   productUpdateGet,
   productUpdatePost
 }
-
-// fix columns order (maybe because of filter)
-// CSS
-// adjust item parameters text price + $, capacity + TB

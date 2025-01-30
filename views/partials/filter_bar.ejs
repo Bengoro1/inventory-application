@@ -1,4 +1,5 @@
 <form id="filterBar" method="get" action="/pc_component/<%= component_url %>">
+  <button type="submit">Filter</button>
   <% filterBar.forEach(attributes => { %>
     <% const parameterName = Object.keys(attributes)[0]; %>
     <% const parameters = attributes[parameterName] || []; %>
@@ -12,19 +13,25 @@
         <div>
           <%= transformString(parameterName) %>
           <% const [fromValue, toValue] = (queryValue || '').split('-').map(Number); %>
-          <label for="from_<%= parameterName %>">From: </label>
-          <input type="number" name="<%= parameterName %>[from]" id="from_<%= parameterName %>" min="<%= Math.min(...filteredParameters) %>" value="<%= fromValue || Math.min(...filteredParameters) %>">
-          <label for="to_<%= parameterName %>">To: </label>
-          <input type="number" name="<%= parameterName %>[to]" id="to_<%= parameterName %>" max="<%= Math.max(...filteredParameters) %>" value="<%= toValue || Math.max(...filteredParameters) %>">
+          <div>
+            <label for="from_<%= parameterName %>">From: </label>
+            <input type="number" name="<%= parameterName %>[from]" id="from_<%= parameterName %>" min="<%= Math.min(...filteredParameters) %>" value="<%= fromValue || Math.min(...filteredParameters) %>">
+          </div>
+          <div>  
+            <label for="to_<%= parameterName %>">To: </label>
+            <input type="number" name="<%= parameterName %>[to]" id="to_<%= parameterName %>" max="<%= Math.max(...filteredParameters) %>" value="<%= toValue || Math.max(...filteredParameters) %>">
+          </div>
         </div>
       <% } else if (parameterType == 'string') { %>
         <div>
           <%= transformString(parameterName) %>
           <% selectedValues = (queryValue || '').split(','); %>
           <% parameters.forEach(parameter => { %>
-            <input type="checkbox" name="<%= parameterName %>[]" value="<%= parameter %>" id="<%= parameterName %>_<%= parameter %>"
-            <%= selectedValues.includes(parameter) ? 'checked' : '' %>>
-            <label for="<%= parameterName %>_<%= parameter %>"><%= parameter %></label>
+            <div>
+              <input type="checkbox" name="<%= parameterName %>[]" value="<%= parameter %>" id="<%= parameterName %>_<%= parameter %>"
+              <%= selectedValues.includes(parameter) ? 'checked' : '' %>>
+              <label for="<%= parameterName %>_<%= parameter %>"><%= parameter %></label>
+            </div>
           <% }); %>
         </div>
       <% } else if (parameterType == 'array') { %>
@@ -33,14 +40,15 @@
           <% const uniqueItems = [...new Set(parameters.flat())]; %>
           <% const selectedValues = (queryValue || '').split(','); %>
           <% uniqueItems.forEach(item => { %>
-            <input type="checkbox" name="<%= parameterName %>[]" value="<%= item %>" id="<%= parameterName %>_<%= item %>"
-            <%= selectedValues.includes(item) ? 'checked' : '' %>>
-            <label for="<%= parameterName %>_<%= item %>"><%= item %></label>
+            <div>
+              <input type="checkbox" name="<%= parameterName %>[]" value="<%= item %>" id="<%= parameterName %>_<%= item %>"
+              <%= selectedValues.includes(item) ? 'checked' : '' %>>
+              <label for="<%= parameterName %>_<%= item %>"><%= item %></label>
+            </div>
           <% }); %>
         </div>
       <% } %>
     <% } %>
   <% }); %>
   <input type="hidden" name="order" value="<%= order %>">
-  <button type="submit">Filter</button>
 </form>

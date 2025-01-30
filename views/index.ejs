@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-</head>
+  <%- include('partials/head', {title: title, stylesheet: 'index'}) %>
 <body>
-  <%- include('partials/header', {title: title}) %>
-  <div>
-    <% categories.forEach(category => { %>
-      <a href="pc_component/<%= category.url %>"><%= category.name %></a>
-    <% }) %>
+  <div class="container">
+    <%- include('partials/header', {title: title}) %>
+    <div class="links-container">
+      <% categories.forEach(category => { %>
+        <a href="pc_component/<%= category.url %>"><%= category.name %></a>
+      <% }) %>
+    </div>
+    <%- include('partials/footer') %>
   </div>
-  <%- include('partials/footer') %>
 </body>
 </html>

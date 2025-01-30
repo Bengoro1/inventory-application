@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+:root {
+  font-family: 'Inconsolata', monospace;  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.header {
+  font-size: 26px;
+  padding: 8px 50px;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background-color: #242424;
+  z-index: 1000;
+}
+
+.header h1 {
+  font-size: 40px;
+  margin: 0;
+}
+
+.footer {
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer img {
+  height: 25px;
+  cursor: pointer;
+  transition: 1s transform;
+}
+
+.footer img:hover {
+  transform: rotate(180deg);
+}
+
+.header > a {
+  color: white;
+}
+
+.header > a:hover {
+  color: rgb(138 138 255);
+}

@@ -1,7 +1,7 @@
 const pool = require('./pool');
 
 async function getAllCategories() {
-  const { rows } = await pool.query(`SELECT * FROM pc_components`);
+  const { rows } = await pool.query(`SELECT * FROM pc_components ORDER BY id`);
   return rows;
 }
 
@@ -135,5 +135,6 @@ module.exports = {
   getFilteredItems,
   newProductPost,
   deleteProduct,
-  updateProductPost
+  updateProductPost,
+  getNameOrModel
 }

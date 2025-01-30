@@ -1,8 +1,12 @@
 <a href="/pc_component/<%= component_url %>/<%= item.id %>">
   <div>
     <% for (const obj in item) { %>
-      <% if (obj != 'id') { %>
-        <p><%= transformString(obj) %>: <%= item[obj] %></p>
+      <% if (obj.includes('ghz') || obj.includes('mhz') || obj.includes('w') || obj.includes('rpm') || obj.includes('db') || obj.includes('gb') || obj.includes('tb')) { %>
+        <p><%= transformString(obj).split(' ').slice(0, -1).join(' ') %>: <%= item[obj] %> <%= transformString(obj).split(' ').slice(-1).join(' ') %></p>
+      <% } else if (obj == 'price') { %>
+        <p><%= transformString(obj) %>: <%= (item[obj] || 0).toFixed(2) %>$</p>
+      <% } else if (obj != 'id') { %>
+        <p title="<%= item[obj] %>"><%= transformString(obj) %>: <%= item[obj] %></p>
       <% } %>
     <% } %>
   </div>
